@@ -6,6 +6,3 @@ applications:
   name: DenzelSmartCity
   host: DenzelSmartCity
   disk_quota: 1024M
-  services:
-  - Weather Company Data-gy
-  - availability-monitoring-auto
