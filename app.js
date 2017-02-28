@@ -38,9 +38,10 @@ app.get('/process_get',function (req,res){
 	},
 	function (error,response,body) {
 			console.log(body)
+			JSON.parse(body);
 	});
 })
-JSON.parse(body);
+
 // start server on the specified port and binding host
 app.listen(appEnv.port, '0.0.0.0', function() {
   // print a message when the server starts listening
