@@ -38,7 +38,7 @@ app.get('/process_get',function (req,res){
 	},
 	function (error,response,body) {
 			var object=JSON.parse(body);
-			console.log(object.precip_type);
+			console.log(object.pop);
 	});
 })
 
