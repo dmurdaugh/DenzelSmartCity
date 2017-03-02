@@ -23,15 +23,10 @@ app.use(express.static(__dirname + '/public'));
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
+function  getweather(lat,longi)
+{
 
-
-app.get('/process_get',function (req,res){
-		//prepare output in JSON format
-	response= {
-			latitude:req.query.latitude,
-			longitude:req.query.longitude
-	};
-	var callURL="https://f300582c-4b8d-4b90-acef-3c0545678094:29KwNW0xLT@twcservice.mybluemix.net/api/weather/v1/geocode/"+response.latitude+"/"+response.longitude+"/forecast/hourly/48hour.json?units=m&language=en-US"
+	var callURL="https://f300582c-4b8d-4b90-acef-3c0545678094:29KwNW0xLT@twcservice.mybluemix.net/api/weather/v1/geocode/"+lat+"/"+longi+"/forecast/hourly/48hour.json?units=m&language=en-US"
 	
 	request.get(callURL, { 
 		json:true
@@ -40,8 +35,17 @@ app.get('/process_get',function (req,res){
 			console.log("parsed data: ",body.metadata);
 			res.end(JSON.stringify(body.metadata));
 	});
-})
-
+});
+	
+}
+app.get('/process_get',function (req,res){
+		//prepare output in JSON format
+		response= {
+			latitude:req.query.latitude,
+			longitude:req.query.longitude
+	};
+	var timer = setInterval(getweather(latitude,longitude), 10000)
+}
 // start server on the specified port and binding host
 app.listen(appEnv.port, '0.0.0.0', function() {
   // print a message when the server starts listening
