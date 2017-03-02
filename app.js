@@ -38,7 +38,7 @@ app.get('/process_get',function (req,res){
 	},
 	function (error,response,body) {
 			console.log("parsed ",body.language);
-			res.end(JSON.stringify(body.language);
+			res.end(JSON.stringify(body.language));
 	});
 })
 
