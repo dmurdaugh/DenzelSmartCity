@@ -68,7 +68,7 @@ app.get('/process_get', function(req, res) {
 })
 
 function getWeather(){
-	var callURL = "https://8d06e217-8e7e-49ca-91d9-8f1dd6f85d88:TAao24v59K@twcservice.mybluemix.net/api/weather/v1/geocode/"+response.latitude+"/"+response.longitude+"/forecast/hourly/48hour.json?units=m&language=en-US";
+	var callURL = "https://f300582c-4b8d-4b90-acef-3c0545678094:29KwNW0xLT@twcservice.mybluemix.net/api/weather/v1/geocode/"+response.latitude+"/"+response.longitude+"/forecast/hourly/48hour.json?units=m&language=en-US";
 	
 	request.get(callURL, {
 		json: true
