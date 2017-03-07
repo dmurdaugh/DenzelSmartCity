@@ -5,11 +5,13 @@
 //------------------------------------------------------------------------------
 
 // This application uses express as its web server
-// for more info, see: http://expressjs.com
+// for more info, see: http://expressjs.co
+var metadataCount = 0;
+var Client = require('ibmiotf');
 var express = require('express');
-	request=require('request'),
+	request = require('request'),
 	
-	_=require('lodash');
+	_= require('lodash');
 
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
@@ -23,31 +25,69 @@ app.use(express.static(__dirname + '/public'));
 
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
-function  getweather(lat,longi)
-{
 
-	var callURL="https://f300582c-4b8d-4b90-acef-3c0545678094:29KwNW0xLT@twcservice.mybluemix.net/api/weather/v1/geocode/"+lat+"/"+longi+"/forecast/hourly/48hour.json?units=m&language=en-US"
-	
-	request.get(callURL, { 
-		json:true
-	},
-	function (error,response,body) {
-			console.log("parsed data: ",body.metadata);
-			res.end(JSON.stringify(body.metadata));
-	});
+// Iot Credentials 
+// --------------------
+var config = {
+ "org" : "2c3wgz",
+ "id" : "Denzel_IOT",
+ "domain": "internetofthings.ibmcloud.com",
+ "type" : "DC-iot",
+ "auth-method": "token",
+ "auth-token" : "7048419193"
+ };
+
+var deviceClient = new Client.IotfDevice(config);
+deviceClient.connect();
+
+// Device Connection
+// -------------------
+
+deviceClient.on('connect', function () {
+  console.log("Device Connected");
+  
 });
+
+
+deviceClient.on("error", function (err) {
+    console.log("Error : **************************************************************************************************************************************************"+err);
+});
+
+// -------------------
+
+app.get('/process_get', function(req, res) {
+	// prepare output in json format
+	response = {
+		latitude:req.query.latitude,
+		longitude:req.query.longitude
+	};
+	
+	setInterval(function(){
+	  getWeather();
+	}, 15000);
+})
+
+function getWeather(){
+	var callURL = "https://8d06e217-8e7e-49ca-91d9-8f1dd6f85d88:TAao24v59K@twcservice.mybluemix.net/api/weather/v1/geocode/"+response.latitude+"/"+response.longitude+"/forecast/hourly/48hour.json?units=m&language=en-US";
+	
+	request.get(callURL, {
+		json: true
+	},
+	function (error, response, body) {
+		// Avoid cases where JSON property is undefined - application crashes
+		// Console Output is only for reference
+		// THE APPLICATION MUST BE STOPPED, CALLS WILL CONTINUE FOREVER!!!
+		if(body.hasOwnProperty('forecasts')) {
+		  console.log(metadataCount + " - The Parsed MetaData: ", body.forecasts[0]);
+		  deviceClient.publish("status","json", JSON.stringify(body.forecasts[0]));
+		  ++metadataCount;
+		}
+	});
 	
 }
-app.get('/process_get',function (req,res){
-		//prepare output in JSON format
-		response= {
-			latitude:req.query.latitude,
-			longitude:req.query.longitude
-	};
-	var timer = setInterval(getweather(latitude,longitude++), 10000);
-}
+
 // start server on the specified port and binding host
 app.listen(appEnv.port, '0.0.0.0', function() {
   // print a message when the server starts listening
-  console.log("server starting on " + appEnv.url);
+  console.log("server starting on ", appEnv.url);
 });
