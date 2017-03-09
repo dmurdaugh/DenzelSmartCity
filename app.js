@@ -62,7 +62,7 @@ app.get('/process_get', function(req, res) {
 		longitude:req.query.longitude
 	};
 	
-	setInterval(function(){
+	var id=setInterval(function(){
 	  getWeather();
 	}, 15000);
 })
@@ -81,6 +81,9 @@ function getWeather(){
 		  console.log(metadataCount + " - The Parsed MetaData: ", body.forecasts[0]);
 		  deviceClient.publish("status","json", JSON.stringify(body.forecasts[0]));
 		  ++metadataCount;
+		  if (metadataCount == 3) {
+			clearInterval(id);
+		  }
 		}
 	});
 	
