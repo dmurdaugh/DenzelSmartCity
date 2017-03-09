@@ -63,9 +63,9 @@ app.get('/process_get', function(req, res) {
 		longitude:req.query.longitude
 	};
 	
-	var id=setInterval(function(){
+	id=setInterval(function(){
 	  getWeather();
-	}, 15000);
+	}, 150);
 })
 
 function getWeather(){
