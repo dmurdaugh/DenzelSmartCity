@@ -64,7 +64,7 @@ app.get('/process_get', function(req, res) {
 	
 	var id=setInterval(function(){
 	  getWeather();
-	}, 15000);
+	}, 1500);
 })
 
 function getWeather(){
