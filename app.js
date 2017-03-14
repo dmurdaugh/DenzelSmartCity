@@ -62,7 +62,7 @@ app.get('/process_get', function(req, res) {
 		latitude:req.query.latitude,
 		longitude:req.query.longitude
 	};
-	MetaData=0;
+	metadataCount=0;
 	id=setInterval(function(){
 	  getWeather();
 	}, 150);
