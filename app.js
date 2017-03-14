@@ -62,7 +62,7 @@ app.get('/process_get', function(req, res) {
 		latitude:req.query.latitude,
 		longitude:req.query.longitude
 	};
-	metadataCount=0;
+	
 	id=setInterval(function(){
 	  getWeather();
 	}, 150);
@@ -82,7 +82,7 @@ function getWeather(){
 		  console.log(metadataCount + " - The Parsed MetaData: ", body.forecasts[0]);
 		  deviceClient.publish("status","json", JSON.stringify(body.forecasts[0]));
 		  ++metadataCount;
-		  if (metadataCount >= 3) {
+		  if (metadataCount == 3) {
 			clearInterval(id);
 		  }
 		}
