@@ -84,7 +84,6 @@ function getWeather(){
 		  ++metadataCount;
 		  if (metadataCount >= 3) {
 			clearInterval(id);
-			MetaData=0;
 		  }
 		}
 	});
