@@ -65,7 +65,7 @@ app.get('/process_get', function(req, res) {
 	
 	id=setInterval(function(){
 	  getWeather();
-	}, 150);
+	}, 15000);
 })
 
 function getWeather(){
@@ -82,9 +82,9 @@ function getWeather(){
 		  console.log(metadataCount + " - The Parsed MetaData: ", body.forecasts[0]);
 		  deviceClient.publish("status","json", JSON.stringify(body.forecasts[0]));
 		  ++metadataCount;
-		  if (metadataCount == 3) {
-			clearInterval(id);
-		  }
+		  //if (metadataCount == 3) {
+			//clearInterval(id);
+		  //}
 		}
 	});
 	
