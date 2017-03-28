@@ -7,7 +7,7 @@
 // This application uses express as its web server
 // for more info, see: http://expressjs.co
 var metadataCount = 0;
-
+var id;
 var Client = require('ibmiotf');
 var express = require('express');
 	request = require('request'),
@@ -63,9 +63,9 @@ app.get('/process_get', function(req, res) {
 		longitude:req.query.longitude
 	};
 	
-	setInterval(function(){
+	id=setInterval(function(){
 	  getWeather();
-	}, 15000);
+	}, 150);
 })
 
 function getWeather(){
@@ -82,9 +82,9 @@ function getWeather(){
 		  console.log(metadataCount + " - The Parsed MetaData: ", body.forecasts[0]);
 		  deviceClient.publish("status","json", JSON.stringify(body.forecasts[0]));
 		  ++metadataCount;
-		  //if (metadataCount == 3) {
-			//clearInterval(id);
-		  //}
+		  if (metadataCount == 3) {
+			clearInterval(id);
+		  }
 		}
 	});
 	
