@@ -7,7 +7,7 @@
 // This application uses express as its web server
 // for more info, see: http://expressjs.co
 var metadataCount = 0;
-var id;
+
 var Client = require('ibmiotf');
 var express = require('express');
 	request = require('request'),
@@ -63,7 +63,7 @@ app.get('/process_get', function(req, res) {
 		longitude:req.query.longitude
 	};
 	
-	id=setInterval(function(){
+	setInterval(function(){
 	  getWeather();
 	}, 15000);
 })
